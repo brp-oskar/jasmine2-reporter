@@ -16,6 +16,7 @@
       pendingSuite: true,
       specDuration: true,
       stacktrace: true,
+      stacktraceMaxLines: 3,
       suiteDuration: false,
       summary: true,
       colors: {
@@ -53,6 +54,8 @@
       opts.specDuration : DEFAULTS.specDuration;
     opts.stacktrace = 'stacktrace' in opts ?
       opts.stacktrace : DEFAULTS.stacktrace;
+    opts.stacktraceMaxLines = 'stacktraceMaxLines' in opts ?
+      opts.stacktraceMaxLines : DEFAULTS.stacktraceMaxLines;
     opts.suiteDuration = 'suiteDuration' in opts ?
       opts.suiteDuration : DEFAULTS.suiteDuration;
     opts.summary = 'summary' in opts ? opts.summary : DEFAULTS.summary;
@@ -140,7 +143,8 @@
       var lines = traces.split('\n');
       var filtered = [];
       for (var i = 1; i < lines.length; i++) {
-        if (!/(jasmine[^\/]*\.js|Timer\.listOnTimeout)/.test(lines[i])) {
+        if ((!this.options.stacktraceMaxLines || filtered.length <= this.options.stacktraceMaxLines) &&
+            !/(jasmine[^\/]*\.js|Timer\.listOnTimeout)/.test(lines[i])) {
           filtered.push(lines[i]);
         }
       }
