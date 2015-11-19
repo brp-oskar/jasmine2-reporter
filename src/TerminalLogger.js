@@ -217,7 +217,9 @@
       this.increaseIndent();
     },
     stopSpec: function (spec, calc) {
-      this[spec.status](spec, calc);
+      if (spec.status && this[spec.status]) {
+        this[spec.status](spec, calc);
+      }
       this.decreaseIndent();
     },
     passed: function (spec, calc) {
